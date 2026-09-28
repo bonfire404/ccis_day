@@ -1,0 +1,706 @@
+/* ==========================================================================
+   SPIN THE CODE — ROULETTE ARENA STYLES
+   PSITS UA — CCIS Day Event
+   ========================================================================== */
+
+.roulette-arena {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 28px;
+  align-items: start;
+  width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   WHEEL STAGE (LEFT COLUMN)
+   -------------------------------------------------------------------------- */
+.wheel-stage-card {
+  background: #FFFFFF;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.stage-badge-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.stage-badge {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  background: var(--color-navy);
+  color: var(--color-gold);
+  border: 1px solid rgba(244, 196, 48, 0.35);
+  box-shadow: 0 2px 6px rgba(11, 31, 58, 0.15);
+}
+
+.sound-toggle-btn {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.sound-toggle-btn:hover {
+  background: var(--color-surface-hover);
+  color: var(--color-navy);
+  border-color: var(--color-border-dark);
+}
+
+.wheel-container {
+  position: relative;
+  width: 440px;
+  height: 440px;
+  max-width: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Outer decorative bezel ring */
+.wheel-bezel {
+  position: absolute;
+  inset: -14px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #FFEBA3 0%, #D4A017 45%, #8B6508 80%, #0B1F3A 100%);
+  box-shadow: 0 16px 36px rgba(11, 31, 58, 0.3), inset 0 2px 6px rgba(255, 255, 255, 0.5);
+  z-index: 1;
+}
+
+.wheel-bezel-inner {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 4px dashed rgba(244, 196, 48, 0.6);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Roulette Canvas */
+#wheelCanvas {
+  position: relative;
+  z-index: 3;
+  width: 440px;
+  height: 440px;
+  border-radius: 50%;
+  background: #0B1F3A;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Ticker Needle at Top */
+.wheel-ticker-wrapper {
+  position: absolute;
+  top: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  pointer-events: none;
+  filter: drop-shadow(0 6px 6px rgba(0, 0, 0, 0.45));
+}
+
+.wheel-ticker {
+  width: 32px;
+  height: 46px;
+  transform-origin: top center;
+  transition: transform 0.08s ease-out;
+}
+
+.wheel-ticker.tick-bounce {
+  transform: scaleY(0.82) rotate(-10deg);
+}
+
+/* Wheel Center Hub Cap */
+.wheel-hub {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 82px;
+  height: 82px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #FFF3B0 0%, #F4C430 40%, #B88E12 85%, #0B1F3A 100%);
+  border: 4px solid #FFFFFF;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 6;
+  pointer-events: none;
+}
+
+.wheel-hub-icon {
+  font-family: var(--font-mono);
+  font-weight: 900;
+  font-size: 13px;
+  color: var(--color-navy);
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+/* Wheel Controls Below */
+.wheel-controls {
+  margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+}
+
+.btn-spin-large {
+  width: 100%;
+  max-width: 380px;
+  padding: 16px 28px;
+  font-size: 18px;
+  font-weight: 800;
+  font-family: var(--font-sans);
+  background: linear-gradient(135deg, #F4C430 0%, #D4A017 100%);
+  color: var(--color-navy);
+  border: 2px solid #FEF9E7;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(244, 196, 48, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  transition: all 0.15s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-spin-large:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(244, 196, 48, 0.6);
+  background: linear-gradient(135deg, #FFDE59 0%, #E5B523 100%);
+}
+
+.btn-spin-large:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: 0 4px 14px rgba(244, 196, 48, 0.4);
+}
+
+.btn-spin-large:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.shortcut-badge {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  background: rgba(11, 31, 58, 0.15);
+  color: var(--color-navy);
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(11, 31, 58, 0.2);
+}
+
+.spin-subtext {
+  font-size: 13px;
+  color: var(--color-text-subtle);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* --------------------------------------------------------------------------
+   DASHBOARD & RESULT (RIGHT COLUMN)
+   -------------------------------------------------------------------------- */
+.dashboard-col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Active Result Card */
+.result-display-card {
+  background: #FFFFFF;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.result-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.result-card-title {
+  font-size: 12px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-subtle);
+}
+
+.result-content {
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  border: 2px dashed var(--color-border);
+  padding: 24px 20px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.result-content.has-won {
+  border-style: solid;
+  border-color: var(--color-gold);
+  background: linear-gradient(180deg, #FEF9E7 0%, #FFFFFF 100%);
+  box-shadow: 0 4px 16px rgba(244, 196, 48, 0.2);
+}
+
+.result-icon-large {
+  font-size: 42px;
+  margin-bottom: 8px;
+  display: inline-block;
+  animation: bounceSoft 1s infinite alternate ease-in-out;
+}
+
+@keyframes bounceSoft {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-6px); }
+}
+
+.result-item-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--color-navy);
+  margin-bottom: 6px;
+}
+
+.result-item-desc {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+.result-item-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  background: var(--color-navy);
+  color: var(--color-gold);
+}
+
+.result-actions {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.btn-open-challenge {
+  background: var(--color-navy);
+  color: #FFFFFF;
+  border: 1px solid var(--color-navy-dark);
+  border-radius: var(--radius-md);
+  padding: 12px 18px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.15s ease;
+}
+
+.btn-open-challenge:hover {
+  background: var(--color-navy-light);
+}
+
+/* Team Info & Points Card */
+.team-session-card {
+  background: #FFFFFF;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
+  padding: 20px 24px;
+}
+
+.team-session-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: center;
+}
+
+.team-input-label {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-text-subtle);
+  margin-bottom: 6px;
+}
+
+.team-name-field {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-navy);
+  background: var(--color-surface);
+  transition: border-color 0.15s ease;
+}
+
+.team-name-field:focus {
+  outline: none;
+  border-color: var(--color-navy);
+  background: #FFFFFF;
+}
+
+.stats-score-box {
+  background: var(--color-navy);
+  color: #FFFFFF;
+  border-radius: var(--radius-md);
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.stats-score-val {
+  font-family: var(--font-mono);
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--color-gold);
+}
+
+.stats-score-controls {
+  display: flex;
+  gap: 4px;
+}
+
+.btn-score-adjust {
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  color: #FFFFFF;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  font-weight: 800;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.12s;
+}
+
+.btn-score-adjust:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* History Ledger Card */
+.history-ledger-card {
+  background: #FFFFFF;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.history-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.history-title {
+  font-size: 12px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-subtle);
+}
+
+.btn-clear-history {
+  background: transparent;
+  border: none;
+  font-size: 12px;
+  color: var(--color-text-subtle);
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+}
+
+.btn-clear-history:hover {
+  color: var(--color-error);
+}
+
+.history-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 200px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.history-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  font-size: 13px;
+}
+
+.history-item-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.history-badge-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.history-item-name {
+  font-weight: 700;
+  color: var(--color-navy);
+}
+
+.history-item-team {
+  font-size: 11px;
+  color: var(--color-text-subtle);
+}
+
+.history-item-time {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-text-subtle);
+}
+
+.history-empty {
+  text-align: center;
+  padding: 24px;
+  color: var(--color-text-subtle);
+  font-size: 13px;
+}
+
+/* --------------------------------------------------------------------------
+   CONFIDENTIAL WIN OVERLAY MODAL
+   -------------------------------------------------------------------------- */
+.win-modal-header {
+  text-align: center;
+  padding: 20px 24px;
+  background: var(--color-navy);
+  color: #FFFFFF;
+}
+
+.win-headline {
+  font-size: 26px;
+  font-weight: 900;
+  color: var(--color-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+
+.win-team-sub {
+  font-size: 14px;
+  color: #E2E8F0;
+}
+
+.win-modal-body {
+  padding: 32px 28px;
+  text-align: center;
+}
+
+.win-slice-icon {
+  font-size: 56px;
+  margin-bottom: 12px;
+  display: inline-block;
+}
+
+.win-slice-label {
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--color-navy);
+  margin-bottom: 8px;
+}
+
+.win-slice-desc {
+  font-size: 15px;
+  color: var(--color-text-muted);
+  max-width: 440px;
+  margin: 0 auto 20px auto;
+  line-height: 1.6;
+}
+
+.win-points-banner {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-gold-light);
+  border: 1px solid var(--color-gold);
+  color: var(--color-navy);
+  font-family: var(--font-mono);
+  font-size: 18px;
+  font-weight: 800;
+  padding: 8px 24px;
+  border-radius: var(--radius-full);
+}
+
+/* --------------------------------------------------------------------------
+   CONFETTI CANVAS OVERLAY
+   -------------------------------------------------------------------------- */
+#confettiCanvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* --------------------------------------------------------------------------
+   QUESTION SOLVER MODAL INSIDE ROULETTE
+   -------------------------------------------------------------------------- */
+.roulette-question-box {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  margin-bottom: 16px;
+}
+
+.roulette-q-badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-gold-dark);
+  margin-bottom: 6px;
+}
+
+.roulette-q-text {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-navy);
+  line-height: 1.5;
+}
+
+.roulette-code-box {
+  background: var(--color-navy-dark);
+  color: #F8FAFC;
+  padding: 14px 18px;
+  border-radius: var(--radius-md);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  margin: 14px 0;
+  white-space: pre-wrap;
+  border-left: 4px solid var(--color-gold);
+}
+
+.roulette-choices-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.btn-roulette-choice {
+  padding: 14px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: left;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: #FFFFFF;
+  color: var(--color-navy);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-roulette-choice:hover:not(:disabled) {
+  border-color: var(--color-navy);
+  background: var(--color-surface);
+}
+
+.btn-roulette-choice.correct {
+  border-color: var(--color-success);
+  background: var(--color-success-bg);
+  color: var(--color-success);
+}
+
+.btn-roulette-choice.wrong {
+  border-color: var(--color-error);
+  background: var(--color-error-bg);
+  color: var(--color-error);
+}
+
+/* Responsive adjustment */
+@media (max-width: 900px) {
+  .roulette-arena {
+    grid-template-columns: 1fr;
+  }
+
+  .wheel-container {
+    width: 320px;
+    height: 320px;
+  }
+
+  #wheelCanvas {
+    width: 320px;
+    height: 320px;
+  }
+}

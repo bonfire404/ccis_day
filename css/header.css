@@ -1,0 +1,117 @@
+.system-header {
+  position: sticky;
+  top: 16px;
+  z-index: 90;
+  width: calc(100% - 48px);
+  max-width: var(--kiosk-max-width);
+  margin: 16px auto 0 auto;
+  height: 60px;
+  background: rgba(11, 31, 58, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 10px 30px -10px rgba(11, 31, 58, 0.22), 0 4px 12px rgba(0, 0, 0, 0.08);
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.brand-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-logo-img {
+  height: 38px;
+  width: auto;
+  max-height: 38px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
+}
+
+.brand-title {
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.brand-title .logo-u {
+  color: #F4C430; 
+  font-weight: 900;
+}
+
+.brand-title .logo-a {
+  color: #DC2626; 
+  font-weight: 900;
+}
+
+.brand-title .brand-divider {
+  color: rgba(255, 255, 255, 0.35);
+  margin: 0 6px;
+}
+
+.brand-title .gold-accent {
+  color: var(--color-gold);
+}
+
+.system-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+}
+
+.active-team-chip {
+  background-color: rgba(255, 255, 255, 0.12);
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.active-team-chip .chip-label {
+  color: var(--color-gold);
+  font-size: 11px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.btn-header {
+  background: rgba(255, 255, 255, 0.08);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 7px 18px;
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.18s ease;
+}
+
+.btn-header:hover {
+  background-color: rgba(255, 255, 255, 0.18);
+  border-color: var(--color-gold);
+  color: var(--color-gold);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-header:active {
+  transform: translateY(0);
+}

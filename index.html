@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Break the Code — PSITS UA</title>
+  <meta name="description" content="10-question Python syntax and logic challenge for PSITS UA.">
+
+  <!-- Clean Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <div class="kiosk-app">
+    <!-- Top System Bar -->
+    <header class="system-header">
+      <div class="brand-wrapper">
+        <img src="assets/psits-logo.png" alt="PSITS Logo" class="brand-logo-img" />
+        <div class="brand-title">
+          PSITS <span class="logo-u">U</span><span class="logo-a">A</span> <span class="brand-divider">&bull;</span> BREAK THE <span class="gold-accent">CODE</span>
+        </div>
+      </div>
+
+      <div class="system-status">
+        <a href="spin-the-code.html" class="btn-header" style="text-decoration:none;" title="Go to Spin the Code Roulette">
+          <span>Spin the Code 🎡</span>
+        </a>
+
+        <button class="btn-header" id="btnOpenRules" type="button" title="View Game Rules">
+          <span>Rules</span>
+        </button>
+
+        <button class="btn-header" id="btnViewLeaderboard" type="button" title="View Team Rankings">
+          <span>Leaderboard</span>
+        </button>
+
+        <button class="btn-header" id="btnOpenFacilitator" type="button" title="Open Facilitator Panel (F)">
+          <span>Facilitator</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Dynamic Kiosk Workspace -->
+    <main class="kiosk-main">
+      <div class="screen-container">
+
+        <!-- ==========================================
+             SCREEN 1: GAME ARENA
+             ========================================== -->
+        <section class="screen-view active" id="screenGame">
+          <!-- Top HUD -->
+          <div class="game-hud">
+            <div class="hud-team-info">
+              <div class="hud-progress-row">
+                <span class="hud-progress-pill" id="gameHudQuestionProgress">QUESTION 1 OF 10</span>
+                <span class="hud-target-pill">TARGET: 110 PTS</span>
+              </div>
+              <input class="hud-team-input" id="gameHudTeamInput" type="text" value="Team 1" placeholder="Enter Team Name..." maxlength="30" autocomplete="off" />
+            </div>
+
+            <div class="hud-timer-wrapper">
+              <div class="timer-digits" id="gameTimerDigits">00:30</div>
+              <div class="timer-sublabel">SECONDS FOR THIS QUESTION</div>
+            </div>
+
+            <div class="hud-score-wrapper">
+              <span class="hud-label">CURRENT SCORE</span>
+              <div class="score-display-row">
+                <span class="score-digits" id="gameScoreDigits">0</span>
+                <span class="score-unit">PTS</span>
+              </div>
+              <div class="streak-pill" id="gameStreakPill" style="display: none;">
+                <span id="gameStreakCount">STREAK: 3 IN A ROW</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Challenge Card -->
+          <div class="challenge-card" id="activeChallengeCard">
+            <!-- Toast Feedback Pop (+10 / Streak) -->
+            <div class="toast-feedback" id="gameFeedbackToast">+10 PTS</div>
+
+            <!-- Ready / Pre-Round Launch Overlay -->
+            <div class="pre-round-overlay" id="preRoundOverlay">
+              <div class="pre-round-badge">PSITS UA CHALLENGE STATION</div>
+              <h2 class="pre-round-title">10-Question Python Challenge</h2>
+              <p class="pre-round-desc">30 seconds per question &bull; Work together &bull; Reach 110 points to win a puzzle piece</p>
+              <button class="btn-primary-large btn-start-round" id="btnLaunchRound" type="button">
+                <span>START 10-QUESTION ROUND</span>
+                <span class="shortcut-hint" style="background: rgba(255,255,255,0.2);">SPACE</span>
+              </button>
+            </div>
+
+            <!-- Pause Overlay -->
+            <div id="gamePauseOverlay" style="display:none; position:absolute; inset:0; background:rgba(11,31,58,0.95); z-index:40; border-radius:var(--radius-lg); align-items:center; justify-content:center; flex-direction:column; color:#FFF;">
+              <h2 style="font-size:32px; font-weight:900; color:var(--color-gold); margin-bottom:8px;">GAME PAUSED</h2>
+              <p style="font-size:16px; color:#E5E7EB;">Press <strong>P</strong> or use the Facilitator menu to resume.</p>
+            </div>
+
+            <div class="card-content-top">
+              <div class="card-topbar">
+                <span class="category-tag" id="cardCategoryTag">GUESS THE OUTPUT</span>
+                <span class="difficulty-pill intermediate" id="cardDifficultyPill">INTERMEDIATE • +20 PTS</span>
+              </div>
+
+              <h2 class="question-text" id="cardQuestionText">What does this code print?</h2>
+
+              <div class="code-container" id="cardCodeContainer">
+                <pre><code id="cardCodeBlock">x = 10
+y = 3
+print(x // y)</code></pre>
+              </div>
+
+              <!-- Multiple Choice Grid (4 Choices) -->
+              <div class="choices-grid" id="choicesContainer">
+                <!-- Dynamically generated choice buttons -->
+              </div>
+            </div>
+
+            <!-- Discreet Facilitator Expected Answer -->
+            <div class="facilitator-answer-box" id="facilitatorAnswerBox" style="display: none;">
+              <span class="answer-label">Facilitator Answer Hint:</span>
+              <span class="answer-val" id="facilitatorAnswerVal">3</span>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- ==========================================
+             SCREEN 2: FINAL SCORE SUMMARY
+             ========================================== -->
+        <section class="screen-view" id="screenTimeUp">
+          <div class="timeup-container">
+            <div class="timeup-header">10 QUESTIONS COMPLETED</div>
+            <h1 class="timeup-title">ROUND CONCLUDED</h1>
+
+            <div class="final-score-card">
+              <div class="final-team-label">TEAM</div>
+              <div class="final-team-name" id="timeUpTeamName">TEAM 1</div>
+              <div class="final-score-number" id="timeUpScore">0</div>
+              <div class="final-score-unit">FINAL SCORE</div>
+            </div>
+
+            <div class="threshold-status-card" id="timeUpThresholdCard">
+              <!-- Dynamically populated based on 140 pts qualification -->
+            </div>
+
+            <div class="final-stats-grid">
+              <div class="stat-box">
+                <div class="stat-val" id="timeUpCardsSolved">0</div>
+                <div class="stat-lbl">Correct Answers</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-val" id="timeUpBestStreak">0</div>
+                <div class="stat-lbl">Best Streak</div>
+              </div>
+            </div>
+
+            <div class="timeup-actions">
+              <button class="btn-primary-large" id="btnSaveScore" type="button">
+                <span>SUBMIT & VIEW LEADERBOARD</span>
+              </button>
+              <button class="btn-secondary" id="btnNextTeam" type="button" style="min-height:56px; font-size:18px;">
+                <span>PREPARE NEXT TEAM &rarr;</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+    <!-- ==========================================
+         PUZZLE PIECE REWARD POP-UP MODAL
+         ========================================== -->
+    <div class="modal-overlay" id="modalPuzzleReward">
+      <div class="modal-window puzzle-reward-window">
+        <div class="modal-header" style="background-color: var(--color-navy); border-bottom: 2px solid var(--color-gold);">
+          <h3 class="modal-title">REWARD UNLOCKED</h3>
+          <button class="btn-close-modal" id="btnClosePuzzleReward" type="button" aria-label="Close modal">&times;</button>
+        </div>
+        <div class="modal-body text-center" style="padding: 36px 28px; text-align: center;">
+          <div class="reward-qualify-pill">TARGET REACHED (110+ POINTS)</div>
+          <h2 class="reward-main-title">YOU WON A PIECE OF A PUZZLE</h2>
+          <p class="reward-sub-text">Congratulations! Your team successfully broke the code and earned an official puzzle piece.</p>
+
+          <div class="puzzle-piece-card">
+            <div class="puzzle-graphic-wrapper">
+              <svg class="puzzle-piece-svg" viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M25 25 L40 25 C40 14 44 8 50 8 C56 8 60 14 60 25 L75 25 C77.7 25 80 27.3 80 30 L80 45 C91 45 97 49 97 55 C97 61 91 65 80 65 L80 80 C80 82.7 77.7 85 75 85 L60 85 C60 74 56 68 50 68 C44 68 40 74 40 85 L25 85 C22.3 85 20 82.7 20 80 L20 65 C29 65 35 61 35 55 C35 49 29 45 20 45 L20 30 C20 27.3 22.3 25 25 25 Z" fill="#F4C430" stroke="#0B1F3A" stroke-width="3" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="puzzle-piece-serial" id="puzzleSerialDisplay">PIECE 1</div>
+            <div class="puzzle-piece-name" id="puzzleNameDisplay">PUZZLE PIECE #1</div>
+            <div class="puzzle-piece-note">Official Event Puzzle Piece</div>
+          </div>
+
+          <div class="reward-instruction-box">
+            Present this screen to the station marshal to claim your puzzle piece.
+          </div>
+        </div>
+        <div class="modal-footer" style="justify-content: center;">
+          <button class="btn-primary-large" id="btnAcknowledgePuzzle" type="button" style="min-height: 52px; font-size: 16px;">
+            <span>CONTINUE TO SCORE SUMMARY</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         RULES MODAL (ON-DEMAND)
+         ========================================== -->
+    <div class="modal-overlay" id="modalRules">
+      <div class="modal-window">
+        <div class="modal-header">
+          <h3 class="modal-title">Challenge Rules & Scoring</h3>
+          <button class="btn-close-modal" id="btnCloseRules" type="button" aria-label="Close modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <ul class="rules-list">
+            <li>Your team faces exactly <strong>10 Python questions</strong>.</li>
+            <li>Each question has a strict <strong>30-second time limit</strong>.</li>
+            <li>Questions range between <strong>Beginner</strong> and <strong>Intermediate</strong> difficulty.</li>
+            <li>Earn <strong>+10 bonus points</strong> for every 3 consecutive correct answers.</li>
+            <li>Reach <strong>110 points</strong> to win a random puzzle piece!</li>
+          </ul>
+
+          <div class="scoring-tier-table" style="grid-template-columns: 1fr 1fr;">
+            <div class="tier-card beginner">
+              <div class="tier-badge">Beginner</div>
+              <div class="tier-pts">+10 PTS</div>
+            </div>
+            <div class="tier-card intermediate">
+              <div class="tier-badge">Intermediate</div>
+              <div class="tier-pts">+20 PTS</div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer" style="justify-content: flex-end;">
+          <button class="btn-secondary" id="btnCloseRulesBtn" type="button">Got It</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         LEADERBOARD MODAL
+         ========================================== -->
+    <div class="modal-overlay" id="modalLeaderboard">
+      <div class="modal-window">
+        <div class="modal-header">
+          <h3 class="modal-title">PSITS UA Leaderboard</h3>
+          <button class="btn-close-modal" id="btnCloseLeaderboard" type="button" aria-label="Close modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <table class="leaderboard-table">
+            <thead>
+              <tr>
+                <th style="width: 50px;">Rank</th>
+                <th>Team</th>
+                <th>Score</th>
+                <th>Solved</th>
+                <th>Streak</th>
+                <th>Puzzle</th>
+              </tr>
+            </thead>
+            <tbody id="leaderboardTableBody">
+              <!-- Populated dynamically -->
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <span style="font-size:13px; color:var(--color-text-subtle);">Stored in local session</span>
+          <button class="btn-secondary" id="fBtnExportCSV" type="button" style="padding:8px 16px; font-size:14px;">
+            Export CSV
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         FACILITATOR CONTROL DRAWER
+         ========================================== -->
+    <div class="modal-overlay" id="facilitatorOverlay" style="background:rgba(0,0,0,0.3); z-index:115;"></div>
+
+    <aside class="facilitator-drawer" id="facilitatorDrawer" aria-label="Facilitator Menu">
+      <div class="drawer-header">
+        <span class="drawer-title">Facilitator Desk</span>
+        <button class="btn-close-modal" id="btnCloseFacilitator" type="button" aria-label="Close drawer">&times;</button>
+      </div>
+
+      <div class="drawer-content">
+        <div>
+          <div class="drawer-section-title">Round Management</div>
+          <button class="drawer-btn" id="fBtnPause" type="button">
+            <span>Pause / Resume</span>
+            <span id="fPauseStatus" style="font-weight:800; color:var(--color-navy-light);">PAUSE (P)</span>
+          </button>
+        </div>
+
+        <div>
+          <div class="drawer-section-title">Timer Adjustments</div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+            <button class="drawer-btn" id="fBtnAdd15" type="button" style="justify-content:center;">+10 Seconds</button>
+            <button class="drawer-btn" id="fBtnSub15" type="button" style="justify-content:center;">-10 Seconds</button>
+          </div>
+        </div>
+
+        <div>
+          <div class="drawer-section-title">Facilitator Tools</div>
+          <button class="drawer-btn" id="fBtnToggleAnswer" type="button">
+            <span>Show Card Answer (A)</span>
+            <span id="fAnswerStatus" style="font-weight:800; color:var(--color-gold-dark);">OFF</span>
+          </button>
+        </div>
+
+        <div>
+          <div class="drawer-section-title">Hotkeys Reference</div>
+          <div style="font-size:13px; color:var(--color-text-muted); background:var(--color-surface); padding:10px 14px; border-radius:var(--radius-md); border:1px solid var(--color-border); line-height:1.7;">
+            <div><strong>1, 2, 3, 4 / A, B, C, D</strong> : Select Choice</div>
+            <div><strong>P</strong> : Pause / Resume</div>
+            <div><strong>A</strong> : Toggle Answer Hint</div>
+            <div><strong>F</strong> : Open/Close Panel</div>
+          </div>
+        </div>
+
+        <div style="margin-top:auto;">
+          <div class="drawer-section-title">Emergency & Reset</div>
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <button class="drawer-btn" id="fBtnForceEnd" type="button">
+              <span>Force End Round</span>
+              <span>&rarr;</span>
+            </button>
+            <button class="drawer-btn" id="fBtnReset" type="button">
+              <span>Reset Current Round</span>
+              <span>&#x21bb;</span>
+            </button>
+            <button class="drawer-btn danger" id="fBtnClearLeaderboard" type="button">
+              <span>Clear Leaderboard</span>
+              <span>&times;</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/questions.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/facilitator.js"></script>
+  <script src="js/app.js"></script>
+</body>
+
+</html>

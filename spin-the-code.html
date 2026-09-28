@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spin the Code — PSITS UA</title>
+  <meta name="description" content="Interactive Roulette Wheel Challenge & Prize Station for PSITS UA CCIS Day.">
+
+  <!-- Clean Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Core & Shared Styles -->
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Roulette Arena Specific Styles -->
+  <link rel="stylesheet" href="css/roulette.css">
+</head>
+
+<body>
+  <div class="kiosk-app">
+    <!-- Top System Header Bar -->
+    <header class="system-header">
+      <div class="brand-wrapper">
+        <img src="assets/psits-logo.png" alt="PSITS Logo" class="brand-logo-img" />
+        <div class="brand-title">
+          PSITS <span class="logo-u">U</span><span class="logo-a">A</span> <span class="brand-divider">&bull;</span> SPIN THE <span class="gold-accent">CODE</span>
+        </div>
+      </div>
+
+      <div class="system-status">
+        <a href="index.html" class="btn-header" style="text-decoration:none;" title="Switch to Break the Code Challenge">
+          <span>&larr; Break the Code</span>
+        </a>
+
+        <button class="sound-toggle-btn" id="btnToggleSound" type="button" title="Toggle Wheel Sound Effects">
+          <span>🔊</span>
+          <span>Sound ON</span>
+        </button>
+
+        <button class="btn-header" id="btnOpenFacilitator" type="button" title="Open Facilitator Menu (F)">
+          <span>Facilitator</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Kiosk Workspace -->
+    <main class="kiosk-main">
+      <div class="screen-container">
+        
+        <div class="roulette-arena">
+          
+          <!-- LEFT COLUMN: ROULETTE WHEEL STAGE -->
+          <section class="wheel-stage-card">
+            <div class="stage-badge-row">
+              <span class="stage-badge">CCIS DAY &bull; CODE ROULETTE</span>
+              <span id="spinStatusText" style="font-family:var(--font-mono); font-size:12px; font-weight:700; color:var(--color-gold-dark);">Ready to spin!</span>
+            </div>
+
+            <!-- Wheel Stage Box -->
+            <div class="wheel-container">
+              <!-- Golden Outer Bezel & Dashed Trim -->
+              <div class="wheel-bezel"></div>
+              <div class="wheel-bezel-inner"></div>
+
+              <!-- Top Ticker Needle (Target at 12 o'clock) -->
+              <div class="wheel-ticker-wrapper" id="wheelTicker">
+                <svg width="34" height="48" viewBox="0 0 34 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <!-- Needle Shadow & Metallic Body -->
+                  <path d="M17 48L3 10C1.5 6 4.5 1 9 1H25C29.5 1 32.5 6 31 10L17 48Z" fill="#F4C430" stroke="#0B1F3A" stroke-width="2.5" />
+                  <path d="M17 42L7 10C6 7 8 3 11 3H23C26 3 28 7 27 10L17 42Z" fill="#FFEBA3" />
+                  <circle cx="17" cy="11" r="5" fill="#0B1F3A" />
+                  <circle cx="17" cy="11" r="2.5" fill="#FFFFFF" />
+                </svg>
+              </div>
+
+              <!-- Canvas Wheel -->
+              <canvas id="wheelCanvas" width="440" height="440"></canvas>
+
+              <!-- Center Hub Cap -->
+              <div class="wheel-hub">
+                <span class="wheel-hub-icon">PSITS</span>
+              </div>
+            </div>
+
+            <!-- Spin Trigger Controls -->
+            <div class="wheel-controls">
+              <button class="btn-spin-large" id="btnSpin" type="button">
+                <span>SPIN THE CODE</span>
+                <span class="shortcut-badge">SPACE</span>
+              </button>
+              <div class="spin-subtext">
+                <span>⚡ Work together &bull; Land challenges, bonuses & rewards</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- RIGHT COLUMN: DASHBOARD & ACTIVE OUTCOME -->
+          <div class="dashboard-col">
+            
+            <!-- Team Info & Score Tracker -->
+            <div class="team-session-card">
+              <div class="team-session-grid">
+                <div>
+                  <div class="team-input-label">Active Team</div>
+                  <input type="text" class="team-name-field" id="teamNameInput" value="Team 1" maxlength="25" placeholder="Team Name..." />
+                </div>
+                <div>
+                  <div class="team-input-label">Session Points</div>
+                  <div class="stats-score-box">
+                    <span class="stats-score-val" id="hudTeamScore">0</span>
+                    <div class="stats-score-controls">
+                      <button class="btn-score-adjust" id="btnScorePlus10" type="button" title="Add 10 Points">+</button>
+                      <button class="btn-score-adjust" id="btnScoreMinus10" type="button" title="Subtract 10 Points">-</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div style="display:flex; justify-content:space-between; margin-top:12px; font-family:var(--font-mono); font-size:12px; color:var(--color-text-subtle);">
+                <span>TOTAL SPINS: <strong id="hudTotalSpins" style="color:var(--color-navy);">0</strong></span>
+                <span>STATUS: <strong style="color:var(--color-success);">ONLINE</strong></span>
+              </div>
+            </div>
+
+            <!-- Active Result Display Card -->
+            <div class="result-display-card">
+              <div class="result-card-header">
+                <span class="result-card-title">Latest Outcome</span>
+                <span class="result-item-badge" id="activeResultBadge" style="display:none;">READY</span>
+              </div>
+
+              <div class="result-content" id="activeResultContent">
+                <div class="result-icon-large" id="activeResultIcon">🎡</div>
+                <div class="result-item-title" id="activeResultTitle">Spin the Wheel!</div>
+                <div class="result-item-desc" id="activeResultDesc">Hit the golden spin button or press SPACEBAR to spin for coding challenges and CCIS Day perks.</div>
+                
+                <div class="result-actions" id="activeResultActions"></div>
+              </div>
+            </div>
+
+            <!-- Spin History Ledger -->
+            <div class="history-ledger-card">
+              <div class="history-card-header">
+                <span class="history-title">Spin Activity Ledger</span>
+                <button class="btn-clear-history" id="btnClearHistory" type="button">Clear</button>
+              </div>
+              <ul class="history-list" id="historyList">
+                <li class="history-empty">No spins recorded yet. Hit "SPIN THE CODE"!</li>
+              </ul>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+
+    <!-- ======================================================================
+         WIN OVERLAY MODAL
+         ====================================================================== -->
+    <div class="modal-overlay" id="modalWinResult">
+      <div class="modal-window" style="max-width:540px;">
+        <div class="win-modal-header">
+          <div class="win-headline">OUTCOME UNLOCKED!</div>
+          <div class="win-team-sub" id="winModalTeam">TEAM 1 LANDED ON</div>
+        </div>
+
+        <div class="win-modal-body">
+          <div class="win-slice-icon" id="winModalIcon">🏆</div>
+          <div class="win-slice-label" id="winModalLabel">BONUS +50 PTS</div>
+          <div class="win-slice-desc" id="winModalDesc">Instant points awarded to team score!</div>
+          
+          <div style="margin-bottom:20px;">
+            <span class="win-points-banner" id="winModalPointsBanner" style="display:none;">REWARD: +50 PTS</span>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:10px;">
+            <button class="btn-open-challenge" id="btnWinSolveChallenge" style="display:none; justify-content:center; padding:14px; font-size:16px;">
+              <span>Solve Python Challenge Now</span>
+              <span>&rarr;</span>
+            </button>
+            <button class="btn-primary-large btn-close-modal" data-close="modalWinResult" type="button" style="justify-content:center;">
+              <span>Continue</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================================
+         PYTHON CHALLENGE QUESTION MODAL
+         ====================================================================== -->
+    <div class="modal-overlay" id="modalQuestionSolver">
+      <div class="modal-window" style="max-width:680px;">
+        <div class="modal-header">
+          <div class="modal-title">
+            <span style="color:var(--color-gold); font-family:var(--font-mono); font-size:13px; display:block;" id="qModalCategory">PYTHON CHALLENGE</span>
+            Solve the Code Challenge
+          </div>
+          <button class="btn-close-modal" data-close="modalQuestionSolver" type="button">&times;</button>
+        </div>
+
+        <div class="modal-body">
+          <div class="roulette-question-box">
+            <span class="roulette-q-badge" id="qModalPoints">+20 PTS</span>
+            <div class="roulette-q-text" id="qModalText">Question text goes here...</div>
+          </div>
+
+          <pre class="roulette-code-box" id="qModalCode" style="display:none;"></pre>
+
+          <div class="roulette-choices-grid" id="qModalChoices">
+            <!-- Dynamic multiple choice buttons populated by roulette.js -->
+          </div>
+        </div>
+
+        <div class="modal-footer" style="display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-size:13px; color:var(--color-text-subtle);">Click your team's answer for instant scoring.</span>
+          <button class="btn-secondary btn-close-modal" data-close="modalQuestionSolver" type="button">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================================
+         FACILITATOR DRAWER (SLICES & CONFIG)
+         ====================================================================== -->
+    <aside class="facilitator-drawer" id="facilitatorDrawer">
+      <div class="drawer-header">
+        <div>
+          <div class="drawer-title">Roulette Facilitator</div>
+          <div class="drawer-subtitle">Live Wheel & Preset Controls</div>
+        </div>
+        <button class="drawer-close" id="btnCloseFacilitator" type="button">&times;</button>
+      </div>
+
+      <div class="drawer-content">
+        <div>
+          <div class="drawer-section-title">Wheel Preset</div>
+          <select id="fSelectPreset" style="width:100%; padding:10px; border-radius:var(--radius-md); border:1px solid var(--color-border); font-size:14px; font-weight:700; color:var(--color-navy); background:var(--color-surface);">
+            <option value="balanced">CCIS Balanced Mix (Code & Perks)</option>
+            <option value="challengesOnly">Coding Challenges Only</option>
+            <option value="rewardsOnly">Prizes & Fun Dares Only</option>
+          </select>
+        </div>
+
+        <div>
+          <div class="drawer-section-title" style="display:flex; justify-content:space-between; align-items:center;">
+            <span>Current Slices</span>
+            <button class="drawer-btn" id="fBtnAddSlice" type="button" style="padding:4px 10px; font-size:12px;">+ Add Slice</button>
+          </div>
+          <div id="fSlicesList" style="display:flex; flex-direction:column; gap:6px; max-height:220px; overflow-y:auto; padding-right:4px;">
+            <!-- Slices list dynamically rendered -->
+          </div>
+        </div>
+
+        <div>
+          <div class="drawer-section-title">Session Reset</div>
+          <button class="drawer-btn" id="fBtnResetScore" type="button" style="justify-content:center;">
+            <span>Reset Team Score to 0</span>
+          </button>
+        </div>
+
+        <div>
+          <div class="drawer-section-title">Station Shortcuts</div>
+          <div style="font-size:13px; color:var(--color-text-muted); background:var(--color-surface); padding:10px 14px; border-radius:var(--radius-md); border:1px solid var(--color-border); line-height:1.7;">
+            <div><strong>SPACE</strong> : Spin the Wheel</div>
+            <div><strong>F</strong> : Open/Close Facilitator</div>
+            <div><strong>ESC</strong> : Close Modals</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Confetti Particle Canvas -->
+    <canvas id="confettiCanvas"></canvas>
+
+  </div>
+
+  <!-- Reusable Question Bank & Roulette Logic -->
+  <script src="js/questions.js"></script>
+  <script src="js/roulette.js"></script>
+</body>
+
+</html>
