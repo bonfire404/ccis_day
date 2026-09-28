@@ -18,30 +18,69 @@
   <link rel="stylesheet" href="css/roulette.css">
 </head>
 
-<body>
-  <div class="kiosk-app">
-    <!-- Top System Header Bar -->
-    <header class="system-header">
-      <div class="brand-wrapper">
-        <img src="assets/psits-logo.png" alt="PSITS Logo" class="brand-logo-img" />
-        <div class="brand-title">
-          PSITS <span class="logo-u">U</span><span class="logo-a">A</span> <span class="brand-divider">&bull;</span> SPIN THE <span class="gold-accent">CODE</span>
+<body class="roulette-light-theme">
+  <div class="kiosk-app roulette-app">
+    <!-- Custom Top Pop-up Notification Bar (Replaces default browser alert) -->
+    <div id="customTopBarAlert" class="custom-top-alert" role="alert" aria-live="assertive">
+      <div class="top-alert-content">
+        <div class="top-alert-icon-wrapper" id="topAlertIconWrapper">
+          <span id="topAlertIcon" class="top-alert-icon"><svg class="roulette-svg-icon" viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8L12 2z"/></svg></span>
         </div>
+        <div class="top-alert-text">
+          <div class="top-alert-title-row">
+            <span class="top-alert-tag" id="topAlertTag">UPDATE</span>
+            <span class="top-alert-title" id="topAlertTitle">Notification</span>
+          </div>
+          <div class="top-alert-message" id="topAlertMessage">Details...</div>
+        </div>
+        <button type="button" class="top-alert-close" id="topAlertCloseBtn" aria-label="Close notification">&times;</button>
       </div>
+      <div class="top-alert-progress"><div class="top-alert-progress-bar" id="topAlertProgressBar"></div></div>
+    </div>
 
-      <div class="system-status">
-        <a href="index.html" class="btn-header" style="text-decoration:none;" title="Switch to Break the Code Challenge">
-          <span>&larr; Break the Code</span>
-        </a>
+    <!-- Custom Dedicated Top Bar for Spin the Code -->
+    <header class="roulette-custom-topbar" id="rouletteCustomTopbar">
+      <div class="topbar-inner">
+        
+        <!-- Left: Brand & Station Identity -->
+        <div class="topbar-brand-section">
+          <div class="topbar-logo-group">
+            <img src="assets/psits-logo.png" alt="PSITS Logo" class="topbar-logo" />
+            <div class="topbar-titles">
+              <div class="topbar-subhead">PSITS UA &bull; CCIS DAY</div>
+              <div class="topbar-mainhead">SPIN THE <span class="accent-gold">CODE</span></div>
+            </div>
+          </div>
+          <span class="topbar-station-chip">STATION 02</span>
+        </div>
 
-        <button class="sound-toggle-btn" id="btnToggleSound" type="button" title="Toggle Wheel Sound Effects">
-          <span>🔊</span>
-          <span>Sound ON</span>
-        </button>
+        <!-- Center: Live Target Goal Capsule -->
+        <div class="topbar-goal-capsule">
+          <span class="capsule-icon"><svg class="roulette-svg-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm0-14c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg></span>
+          <span class="capsule-label">GOAL:</span>
+          <strong class="capsule-val">120 PTS</strong>
+          <span class="capsule-divider">&bull;</span>
+          <span class="capsule-status" id="topbarGoalStatus">IN PROGRESS</span>
+        </div>
 
-        <button class="btn-header" id="btnOpenFacilitator" type="button" title="Open Facilitator Menu (F)">
-          <span>Facilitator</span>
-        </button>
+        <!-- Right: Actions & Station Controls -->
+        <div class="topbar-actions-section">
+          <a href="index.html" class="topbar-btn topbar-btn-nav" title="Switch to Break the Code Challenge">
+            <span class="nav-arrow">&larr;</span>
+            <span>Break the Code</span>
+          </a>
+
+          <button class="topbar-btn topbar-btn-sound" id="btnToggleSound" type="button" title="Toggle Wheel Sound Effects">
+            <span class="sound-icon" id="soundIconWrapper"><svg class="roulette-svg-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></span>
+            <span id="soundLabelText">Sound ON</span>
+          </button>
+
+          <button class="topbar-btn topbar-btn-facilitator" id="btnOpenFacilitator" type="button" title="Open Facilitator Menu (F)">
+            <span>Facilitator</span>
+            <kbd class="topbar-kbd">F</kbd>
+          </button>
+        </div>
+
       </div>
     </header>
 
@@ -55,23 +94,32 @@
           <section class="wheel-stage-card">
             <div class="stage-badge-row">
               <span class="stage-badge">CCIS DAY &bull; CODE ROULETTE</span>
-              <span id="spinStatusText" style="font-family:var(--font-mono); font-size:12px; font-weight:700; color:var(--color-gold-dark);">Ready to spin!</span>
+              <span id="spinStatusText" class="spin-status-indicator">Ready to spin!</span>
             </div>
 
             <!-- Wheel Stage Box -->
             <div class="wheel-container">
-              <!-- Golden Outer Bezel & Dashed Trim -->
+              <!-- Precision Bezel Ring -->
               <div class="wheel-bezel"></div>
               <div class="wheel-bezel-inner"></div>
 
               <!-- Top Ticker Needle (Target at 12 o'clock) -->
               <div class="wheel-ticker-wrapper" id="wheelTicker">
-                <svg width="34" height="48" viewBox="0 0 34 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <!-- Needle Shadow & Metallic Body -->
-                  <path d="M17 48L3 10C1.5 6 4.5 1 9 1H25C29.5 1 32.5 6 31 10L17 48Z" fill="#F4C430" stroke="#0B1F3A" stroke-width="2.5" />
-                  <path d="M17 42L7 10C6 7 8 3 11 3H23C26 3 28 7 27 10L17 42Z" fill="#FFEBA3" />
-                  <circle cx="17" cy="11" r="5" fill="#0B1F3A" />
-                  <circle cx="17" cy="11" r="2.5" fill="#FFFFFF" />
+                <svg width="28" height="42" viewBox="0 0 28 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <linearGradient id="needleGrad" x1="14" y1="2" x2="14" y2="40" gradientUnits="userSpaceOnUse">
+                      <stop offset="0%" stop-color="#FBBF24" />
+                      <stop offset="60%" stop-color="#F59E0B" />
+                      <stop offset="100%" stop-color="#B45309" />
+                    </linearGradient>
+                    <filter id="neonGlow" x="-6" y="-6" width="40" height="54" filterUnits="userSpaceOnUse">
+                      <feGaussianBlur stdDeviation="3.5" result="blur" />
+                      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                    </filter>
+                  </defs>
+                  <path d="M14 40 L4 11 C3 7 5 3 9 3 L19 3 C23 3 25 7 24 11 Z" fill="url(#needleGrad)" stroke="#090D16" stroke-width="2" filter="url(#neonGlow)"/>
+                  <circle cx="14" cy="11" r="3.5" fill="#090D16" stroke="#FEF3C7" stroke-width="1.5"/>
+                  <circle cx="14" cy="11" r="1.5" fill="#FFFFFF"/>
                 </svg>
               </div>
 
@@ -107,19 +155,30 @@
                   <input type="text" class="team-name-field" id="teamNameInput" value="Team 1" maxlength="25" placeholder="Team Name..." />
                 </div>
                 <div>
-                  <div class="team-input-label">Session Points</div>
+                  <div class="team-input-label">Points (Goal: 120 PTS)</div>
                   <div class="stats-score-box">
-                    <span class="stats-score-val" id="hudTeamScore">0</span>
-                    <div class="stats-score-controls">
-                      <button class="btn-score-adjust" id="btnScorePlus10" type="button" title="Add 10 Points">+</button>
-                      <button class="btn-score-adjust" id="btnScoreMinus10" type="button" title="Subtract 10 Points">-</button>
+                    <div style="display:flex; align-items:baseline; gap:4px;">
+                      <span class="stats-score-val" id="hudTeamScore">0</span>
+                      <span style="font-family:var(--font-mono); font-size:14px; font-weight:700; color:var(--r-text-subtle, #64748B);">/ 120</span>
                     </div>
                   </div>
                 </div>
               </div>
-              <div style="display:flex; justify-content:space-between; margin-top:12px; font-family:var(--font-mono); font-size:12px; color:var(--color-text-subtle);">
-                <span>TOTAL SPINS: <strong id="hudTotalSpins" style="color:var(--color-navy);">0</strong></span>
-                <span>STATUS: <strong style="color:var(--color-success);">ONLINE</strong></span>
+
+              <!-- Goal Progress Bar (120 PTS Target) -->
+              <div class="goal-progress-section" style="margin-top: 14px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; font-size:11px; font-family:var(--font-mono); font-weight:700; color:var(--r-text-subtle, #64748B); margin-bottom:6px;">
+                  <span>STATION GOAL PROGRESS</span>
+                  <span id="hudGoalProgressText">0 / 120 PTS (0%)</span>
+                </div>
+                <div class="goal-progress-track">
+                  <div class="goal-progress-bar" id="hudGoalProgressBar"></div>
+                </div>
+              </div>
+
+              <div style="display:flex; justify-content:space-between; margin-top:12px; font-family:var(--font-mono); font-size:12px; color:var(--r-text-subtle, #64748B);">
+                <span>TOTAL SPINS: <strong id="hudTotalSpins" style="color:#0F172A;">0</strong></span>
+                <span>STATUS: <strong id="hudGoalStatus" style="color:var(--r-emerald, #10B981);">ACTIVE</strong></span>
               </div>
             </div>
 
@@ -131,7 +190,7 @@
               </div>
 
               <div class="result-content" id="activeResultContent">
-                <div class="result-icon-large" id="activeResultIcon">🎡</div>
+                <div class="result-icon-large" id="activeResultIcon"><svg class="roulette-svg-icon" viewBox="0 0 24 24" width="44" height="44" fill="var(--r-amber-dark, #D97706)"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8L12 2z"/></svg></div>
                 <div class="result-item-title" id="activeResultTitle">Spin the Wheel!</div>
                 <div class="result-item-desc" id="activeResultDesc">Hit the golden spin button or press SPACEBAR to spin for coding challenges and CCIS Day perks.</div>
                 
@@ -168,7 +227,7 @@
         </div>
 
         <div class="win-modal-body">
-          <div class="win-slice-icon" id="winModalIcon">🏆</div>
+          <div class="win-slice-icon" id="winModalIcon"><svg class="roulette-svg-icon" viewBox="0 0 24 24" width="56" height="56" fill="var(--r-amber-dark, #D97706)"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94A5.01 5.01 0 0 0 11 15.9V19H8v2h8v-2h-3v-3.1a5.01 5.01 0 0 0 3.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z"/></svg></div>
           <div class="win-slice-label" id="winModalLabel">BONUS +50 PTS</div>
           <div class="win-slice-desc" id="winModalDesc">Instant points awarded to team score!</div>
           
@@ -223,6 +282,37 @@
     </div>
 
     <!-- ======================================================================
+         GOAL REACHED CELEBRATION MODAL (120 PTS)
+         ====================================================================== -->
+    <div class="modal-overlay" id="modalGoalReached">
+      <div class="modal-window" style="max-width:520px; text-align:center;">
+        <div class="win-modal-header" style="background:linear-gradient(180deg, #FEF3C7, #FFFFFF);">
+          <div class="win-headline" style="color:var(--r-amber-dark, #D97706); font-size:26px; display:flex; align-items:center; justify-content:center; gap:8px;"><svg class="roulette-svg-icon" viewBox="0 0 24 24" width="26" height="26" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm0-14c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg> <span>GOAL ACHIEVED!</span></div>
+          <div class="win-team-sub" id="goalModalTeam">TEAM REACHED 120 POINTS!</div>
+        </div>
+
+        <div class="win-modal-body" style="padding:28px 24px;">
+          <div style="display:flex; justify-content:center; margin-bottom:12px;"><svg class="roulette-svg-icon" viewBox="0 0 24 24" width="56" height="56" fill="var(--r-amber, #F59E0B)"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94A5.01 5.01 0 0 0 11 15.9V19H8v2h8v-2h-3v-3.1a5.01 5.01 0 0 0 3.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z"/></svg></div>
+          <div style="font-size:24px; font-weight:900; color:#0F172A; margin-bottom:8px;">STATION CHALLENGE COMPLETE!</div>
+          <div style="font-size:14px; color:var(--r-text-muted, #475569); line-height:1.6; max-width:380px; margin:0 auto 20px;">
+            Incredible teamwork! Your team reached the <strong>120 Points</strong> target for Spin the Code!
+          </div>
+
+          <div style="display:inline-flex; gap:16px; background:#F8FAFC; border:1px solid #E2E8F0; padding:10px 24px; border-radius:12px; margin-bottom:24px; font-family:var(--font-mono); font-size:13px;">
+            <span>TOTAL SPINS: <strong id="goalModalSpins">0</strong></span>
+            <span>TARGET: <strong style="color:var(--r-emerald, #10B981);">120 PTS COMPLETE</strong></span>
+          </div>
+
+          <div>
+            <button class="btn-primary-large btn-close-modal" data-close="modalGoalReached" type="button" style="width:100%; justify-content:center; background:linear-gradient(135deg, #F59E0B, #D97706); color:#0F172A; font-weight:800; border:none; padding:14px;">
+              <span>Continue Session</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================================
          FACILITATOR DRAWER (SLICES & CONFIG)
          ====================================================================== -->
     <aside class="facilitator-drawer" id="facilitatorDrawer">
@@ -237,7 +327,7 @@
       <div class="drawer-content">
         <div>
           <div class="drawer-section-title">Wheel Preset</div>
-          <select id="fSelectPreset" style="width:100%; padding:10px; border-radius:var(--radius-md); border:1px solid var(--color-border); font-size:14px; font-weight:700; color:var(--color-navy); background:var(--color-surface);">
+          <select id="fSelectPreset" class="drawer-select">
             <option value="balanced">CCIS Balanced Mix (Code & Perks)</option>
             <option value="challengesOnly">Coding Challenges Only</option>
             <option value="rewardsOnly">Prizes & Fun Dares Only</option>
@@ -247,10 +337,19 @@
         <div>
           <div class="drawer-section-title" style="display:flex; justify-content:space-between; align-items:center;">
             <span>Current Slices</span>
-            <button class="drawer-btn" id="fBtnAddSlice" type="button" style="padding:4px 10px; font-size:12px;">+ Add Slice</button>
+            <button class="drawer-btn" id="fBtnAddSlice" type="button" style="padding:4px 10px; font-size:12px; width:auto; min-height:unset;">+ Add Slice</button>
           </div>
           <div id="fSlicesList" style="display:flex; flex-direction:column; gap:6px; max-height:220px; overflow-y:auto; padding-right:4px;">
             <!-- Slices list dynamically rendered -->
+          </div>
+        </div>
+
+        <div>
+          <div class="drawer-section-title">Manual Score Override (Facilitator)</div>
+          <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:8px;">
+            <button class="drawer-btn" id="fBtnScoreMinus10" type="button" style="justify-content:center; padding:8px 0; font-weight:700; color:#F43F5E;">-10 PTS</button>
+            <button class="drawer-btn" id="fBtnScorePlus10" type="button" style="justify-content:center; padding:8px 0; font-weight:700; color:#10B981;">+10 PTS</button>
+            <button class="drawer-btn" id="fBtnScorePlus20" type="button" style="justify-content:center; padding:8px 0; font-weight:700; color:#0284C7;">+20 PTS</button>
           </div>
         </div>
 
@@ -263,7 +362,7 @@
 
         <div>
           <div class="drawer-section-title">Station Shortcuts</div>
-          <div style="font-size:13px; color:var(--color-text-muted); background:var(--color-surface); padding:10px 14px; border-radius:var(--radius-md); border:1px solid var(--color-border); line-height:1.7;">
+          <div class="drawer-shortcuts-box">
             <div><strong>SPACE</strong> : Spin the Wheel</div>
             <div><strong>F</strong> : Open/Close Facilitator</div>
             <div><strong>ESC</strong> : Close Modals</div>

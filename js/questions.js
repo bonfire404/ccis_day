@@ -319,6 +319,282 @@ const questionsBank = [
     code: "items = [10, 20]\nprint(items[5])",
     options: ["IndexError", "KeyError", "ValueError", "TypeError"],
     answer: "IndexError"
+  },
+  // ==========================================
+  // TRUE OR FALSE QUESTIONS (+20 PTS)
+  // ==========================================
+  {
+    id: 29,
+    category: "truefalse",
+    categoryLabel: "TRUE OR FALSE",
+    difficulty: "intermediate",
+    points: 20,
+    question: "In Python, strings are immutable and cannot be modified in place once created.",
+    code: null,
+    options: ["True", "False"],
+    answer: "True"
+  },
+  {
+    id: 30,
+    category: "truefalse",
+    categoryLabel: "TRUE OR FALSE",
+    difficulty: "intermediate",
+    points: 20,
+    question: "In Python, a variable declared inside a function automatically has global scope.",
+    code: null,
+    options: ["True", "False"],
+    answer: "False"
+  },
+  {
+    id: 31,
+    category: "truefalse",
+    categoryLabel: "TRUE OR FALSE",
+    difficulty: "intermediate",
+    points: 20,
+    question: "Python lists allow storing multiple elements of completely different data types.",
+    code: null,
+    options: ["True", "False"],
+    answer: "True"
+  },
+  {
+    id: 32,
+    category: "truefalse",
+    categoryLabel: "TRUE OR FALSE",
+    difficulty: "intermediate",
+    points: 20,
+    question: "The boolean expression 'bool(\"\")' evaluates to True in Python.",
+    code: "is_valid = bool(\"\")\nprint(is_valid)",
+    options: ["True", "False"],
+    answer: "False"
+  },
+  {
+    id: 33,
+    category: "truefalse",
+    categoryLabel: "TRUE OR FALSE",
+    difficulty: "intermediate",
+    points: 20,
+    question: "In Python, tuples can have new items appended to them using the .append() method.",
+    code: null,
+    options: ["True", "False"],
+    answer: "False"
+  },
+  {
+    id: 34,
+    category: "truefalse",
+    categoryLabel: "TRUE OR FALSE",
+    difficulty: "intermediate",
+    points: 20,
+    question: "The '==' operator checks for value equality, whereas the 'is' operator checks for object identity in memory.",
+    code: null,
+    options: ["True", "False"],
+    answer: "True"
+  },
+  {
+    id: 35,
+    category: "truefalse",
+    categoryLabel: "TRUE OR FALSE",
+    difficulty: "intermediate",
+    points: 20,
+    question: "Dictionary keys in Python must be hashable and immutable types (such as strings, integers, or tuples).",
+    code: null,
+    options: ["True", "False"],
+    answer: "True"
+  },
+  {
+    id: 36,
+    category: "truefalse",
+    categoryLabel: "TRUE OR FALSE",
+    difficulty: "intermediate",
+    points: 20,
+    question: "In Python 3, the standard division operator '/' always returns a float even if numbers divide evenly.",
+    code: "val = 10 / 2\n# True if float, False if int",
+    options: ["True", "False"],
+    answer: "True"
+  },
+  {
+    id: 37,
+    category: "truefalse",
+    categoryLabel: "TRUE OR FALSE",
+    difficulty: "intermediate",
+    points: 20,
+    question: "A 'break' statement in Python restarts the loop from the first iteration.",
+    code: null,
+    options: ["True", "False"],
+    answer: "False"
+  },
+  {
+    id: 38,
+    category: "truefalse",
+    categoryLabel: "TRUE OR FALSE",
+    difficulty: "intermediate",
+    points: 20,
+    question: "A Python set preserves and displays duplicate values in insertion order.",
+    code: "data = {1, 2, 2, 3}\nprint(len(data))",
+    options: ["True", "False"],
+    answer: "False"
+  },
+  // ==========================================
+  // SYNTAX ERROR CHALLENGES (+20 PTS)
+  // ==========================================
+  {
+    id: 39,
+    category: "syntax",
+    categoryLabel: "SYNTAX ERROR",
+    difficulty: "intermediate",
+    points: 20,
+    question: "Identify the syntax error in this Python code snippet:",
+    code: "x = 15\nif x > 10\n    print(\"Greater\")",
+    options: [
+      "Missing colon ':' at the end of the if statement",
+      "Variable x must be initialized in parentheses",
+      "print() cannot output double-quoted strings",
+      "Indentation is not allowed after if statement"
+    ],
+    answer: "Missing colon ':' at the end of the if statement"
+  },
+  {
+    id: 40,
+    category: "syntax",
+    categoryLabel: "SYNTAX ERROR",
+    difficulty: "intermediate",
+    points: 20,
+    question: "What is the syntax error in this string definition?",
+    code: "greeting = \"Hello, CCIS Day!\nprint(greeting)",
+    options: [
+      "Unterminated string literal (missing closing quote)",
+      "greeting is a reserved Python keyword",
+      "print() cannot accept greeting as a parameter",
+      "Strings cannot contain exclamation marks"
+    ],
+    answer: "Unterminated string literal (missing closing quote)"
+  },
+  {
+    id: 41,
+    category: "syntax",
+    categoryLabel: "SYNTAX ERROR",
+    difficulty: "intermediate",
+    points: 20,
+    question: "Why does this variable assignment raise a SyntaxError?",
+    code: "1st_place = \"Champion\"\nprint(1st_place)",
+    options: [
+      "Variable identifiers cannot start with a digit",
+      "Strings must use single quotes in Python",
+      "Underscores are forbidden in identifier names",
+      "print() requires an integer argument"
+    ],
+    answer: "Variable identifiers cannot start with a digit"
+  },
+  {
+    id: 42,
+    category: "syntax",
+    categoryLabel: "SYNTAX ERROR",
+    difficulty: "intermediate",
+    points: 20,
+    question: "What syntax error prevents this condition from running?",
+    code: "status = \"online\"\nif status = \"online\":\n    print(\"Active\")",
+    options: [
+      "Assignment operator '=' used instead of comparison '=='",
+      "Strings cannot be compared in an if statement",
+      "Colon ':' must be replaced with semicolon ';'",
+      "print() must be inside curly brackets"
+    ],
+    answer: "Assignment operator '=' used instead of comparison '=='"
+  },
+  {
+    id: 43,
+    category: "syntax",
+    categoryLabel: "SYNTAX ERROR",
+    difficulty: "intermediate",
+    points: 20,
+    question: "What is the syntax error in this loop declaration?",
+    code: "count = 0\nwhlie count < 5:\n    count += 1",
+    options: [
+      "Misspelled keyword 'whlie' instead of 'while'",
+      "Compound assignment '+=' is not valid syntax",
+      "count cannot be initialized with 0",
+      "Comparison operator '<' is illegal in loop headers"
+    ],
+    answer: "Misspelled keyword 'whlie' instead of 'while'"
+  },
+  {
+    id: 44,
+    category: "syntax",
+    categoryLabel: "SYNTAX ERROR",
+    difficulty: "intermediate",
+    points: 20,
+    question: "Why does this function definition produce a SyntaxError?",
+    code: "def calculate_points:\n    return 100",
+    options: [
+      "Missing parameter parentheses '()' after function name",
+      "Functions cannot return numbers in Python",
+      "calculate_points must use PascalCase syntax",
+      "def must be replaced with function keyword"
+    ],
+    answer: "Missing parameter parentheses '()' after function name"
+  },
+  {
+    id: 45,
+    category: "syntax",
+    categoryLabel: "SYNTAX ERROR",
+    difficulty: "intermediate",
+    points: 20,
+    question: "What syntax error exists in this list definition?",
+    code: "items = [10, 20, 30, 40)\nprint(items)",
+    options: [
+      "Mismatched bracket: opened with '[' but closed with ')'",
+      "Numbers in a list must be separated with semicolons",
+      "Lists cannot contain more than 3 elements",
+      "print() cannot output list objects directly"
+    ],
+    answer: "Mismatched bracket: opened with '[' but closed with ')'"
+  },
+  {
+    id: 46,
+    category: "syntax",
+    categoryLabel: "SYNTAX ERROR",
+    difficulty: "intermediate",
+    points: 20,
+    question: "Why does this code trigger a SyntaxError in Python?",
+    code: "class = \"Computer Science\"\nprint(class)",
+    options: [
+      "Cannot use reserved keyword 'class' as a variable identifier",
+      "Strings with spaces must be enclosed in triple quotes",
+      "Assignment operator '=' is not allowed with words",
+      "Variable names cannot be shorter than 6 characters"
+    ],
+    answer: "Cannot use reserved keyword 'class' as a variable identifier"
+  },
+  {
+    id: 47,
+    category: "syntax",
+    categoryLabel: "SYNTAX ERROR",
+    difficulty: "intermediate",
+    points: 20,
+    question: "What syntax error is present in this conditional branch?",
+    code: "val = 20\nif val > 20:\n    print(\"High\")\nelsif val == 20:\n    print(\"Exact\")",
+    options: [
+      "Invalid keyword 'elsif'; Python uses 'elif'",
+      "print(\"Exact\") must be indented with 8 spaces",
+      "val == 20 requires a single '=' sign",
+      "if statement must be closed with 'endif'"
+    ],
+    answer: "Invalid keyword 'elsif'; Python uses 'elif'"
+  },
+  {
+    id: 48,
+    category: "syntax",
+    categoryLabel: "SYNTAX ERROR",
+    difficulty: "intermediate",
+    points: 20,
+    question: "What syntax error occurs in this dictionary creation?",
+    code: "player = {\"name\": \"Alex\", \"level\": 5,}",
+    options: [
+      "No syntax error; trailing commas are valid Python dictionary syntax",
+      "Curly braces '{}' cannot be used for dictionaries",
+      "Colon ':' must be replaced with an equal sign '='",
+      "Key names cannot be enclosed in quotes"
+    ],
+    answer: "No syntax error; trailing commas are valid Python dictionary syntax"
   }
 ];
 
@@ -351,4 +627,16 @@ function getBalanced10QuestionDeck() {
   }
 
   return deck;
+}
+
+// Automatically randomize options positions so index 0 is not always the answer
+if (typeof questionsBank !== "undefined" && Array.isArray(questionsBank)) {
+  questionsBank.forEach(q => {
+    if (Array.isArray(q.options)) {
+      for (let i = q.options.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [q.options[i], q.options[j]] = [q.options[j], q.options[i]];
+      }
+    }
+  });
 }
